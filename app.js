@@ -35,7 +35,7 @@ var subset_sum_recursive = function(numbers, target, partial) {
     }
 
     if (s === target) {
-        return partial;
+        return [partial];
     }
 
     if (s > target) {
@@ -50,11 +50,20 @@ var subset_sum_recursive = function(numbers, target, partial) {
         var n = numbers[i];
         new_partial = partial.slice(0);
         new_partial.push(n);
+        console.log(new_partial);
         var result = subset_sum_recursive(remaining, target, new_partial);
         
         if (result !== false && result.length !== 0) {
-            successes = successes.concat([result]);
+            result_len = result.length;
+
+            for (var ii = 0; ii < result_len; ii++) {
+                successes.push(result[ii]);
+            }
         }
+    }
+
+    if (successes.length === 0) {
+        return false;
     }
 
     return successes;
