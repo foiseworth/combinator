@@ -1,0 +1,23 @@
+doctype 5
+html(lang="en")
+    head
+        title Combinator by About Andrew
+        link(rel='stylesheet', href='http://aboutandrew.co.uk/less/style.css')
+    body
+        div(class='container')
+            header
+                h1(class='site-title') Combinator by About Andrew
+
+            div(class='secondary-content')
+                div(class='page-section projects-section')
+                    h2 Your figures
+                    form(action='/', method='get')
+                        div(class='form-section')
+                            label(for='target', class='form-label') Your target
+                            input(type='text', name='target', class='form-input')
+                        div(class='form-section')
+                            label(for='numbers', class='form-label') Your numbers
+                            textarea(class='form-input', name='numbers', placeholder='Put each number on a new line', style='height: 500px')
+                        input(type='submit')
+            div(class='page-section projects-section')
+                h2 Your results
