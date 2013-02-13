@@ -2,6 +2,7 @@ doctype 5
 html(lang="en")
     head
         title Combinator by About Andrew
+        meta(name='description', content="Combinator is an app for people who know where they're going but not how to get there.")
         link(rel='stylesheet', href='http://aboutandrew.co.uk/less/style.css')
     body
         div(class='container')
@@ -10,14 +11,32 @@ html(lang="en")
 
             div(class='secondary-content')
                 div(class='page-section projects-section')
+                    - if (locals.results.length > 0)
+                        h2 Your results
+                        div(class='form-section')
+                            ul
+                            each result in locals.results
+                                li= result.join(', ')
+                    - else if (locals.results.length === 0)
+                        p Oh no! We couldn't find any possible combination to reach your desired target.
+                        p If you believe this is a bug, please contact me (
+                            a(href='https://twitter.com/foiseworth', target='blank') @foiseworth
+                            ).
+                    - else
+                        h2 Welcome
+                        p Combinator is an app for people who know where they're going but not how to get there.
+                        p Have you ever had a set of numbers and another number you need to reach with the afore mentioned set of numbers?
+                        p Finance professionals around the world sit in abject misery every day because of this very problem.
+                        p Today we say "No more!"
+
+                div(class='page-section projects-section')
                     h2 Your figures
                     form(action='/', method='get')
                         div(class='form-section')
                             label(for='target', class='form-label') Your target
-                            input(type='text', name='target', class='form-input')
+                            input(type='text', name='target', class='form-input', placeholder='The number you are trying to reach', value=locals.target)
                         div(class='form-section')
                             label(for='numbers', class='form-label') Your numbers
-                            textarea(class='form-input', name='numbers', placeholder='Put each number on a new line', style='height: 500px')
+                            textarea(class='form-input', name='numbers', placeholder='Put each number on a new line', style='height: 500px').
+                                #{locals.numberStr}
                         input(type='submit', class='btn form-submit')
-            div(class='page-section projects-section')
-                h2 Your results

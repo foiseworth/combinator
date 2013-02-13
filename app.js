@@ -12,46 +12,53 @@ var combinate = function(request, response){
     fs.readFile('./index.html', function(err, data){
         var output = jade.compile(data);
 
+        var locals = {
+            target: '',
+            results: false,
+            numberStr: ''
+        };
+
         if (query.hasOwnProperty('numbers') && query.hasOwnProperty('target')) {
-            numbers = query.numbers.split('\r\n');
-            target = parseInt(query.target, 10);
-            console.log(subset_sum(numbers, target));
+            locals.numberStr = query.numbers;
+            numbers = locals.numberStr.split('\r\n').map(function(a){
+                return parseInt(a, 10);
+            });
+            locals.target = parseInt(query.target, 10);
+            locals.results = subset_sum(numbers, locals.target);
         }
 
-        response.end(output());
+        response.end(output(locals));
     });
 
 };
 
-http.createServer(combinate).listen(8080);
+http.createServer(combinate).listen(17532);
 
 var subset_sum_recursive = function(numbers, target, partial) {
-    var s = 0;
+    var sum = partial.reduce(function(a, b){
+        return a + b;
+    }, 0);
 
-    partial_length = partial.length;
-
-    for (var i = 0; i < partial_length; i++) {
-        s = s + parseInt(partial[i], 10);
-    }
-
-    if (s === target) {
+    if (sum === target) {
         return [partial];
     }
 
-    if (s > target) {
+    if (sum > target) {
         return false;
     }
 
-    num_length = numbers.length;
+    var num_length = numbers.length;
     var successes = [];
 
     for (var i = 0; i < num_length; i++) {
-        var remaining = numbers.slice(i+1);
         var n = numbers[i];
-        new_partial = partial.slice(0);
+        var new_partial = partial.slice(0);
         new_partial.push(n);
-        console.log(new_partial);
+        
+        var remaining = numbers.slice(i+1);
+
         var result = subset_sum_recursive(remaining, target, new_partial);
+        
         
         if (result !== false && result.length !== 0) {
             result_len = result.length;
@@ -71,5 +78,5 @@ var subset_sum_recursive = function(numbers, target, partial) {
 
 
 var subset_sum = function(numbers, target) {
-    return subset_sum_recursive(numbers, target, []);
+    return subset_sum_recursive(numbers, target, []) || [];
 };
