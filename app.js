@@ -76,7 +76,7 @@ var subset_sum_recursive = function(numbers, target, partial) {
     return successes;
 };
 
-
+/* Thanks to msalvadores http://stackoverflow.com/users/418267/msalvadores */
 var subset_sum = function(numbers, target) {
     return subset_sum_recursive(numbers, target, []) || [];
 };
